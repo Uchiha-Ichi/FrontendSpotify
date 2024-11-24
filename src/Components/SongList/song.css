@@ -1,0 +1,15 @@
+.song-list {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.song-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.audio-player {
+    margin-top: 20px;
+}
