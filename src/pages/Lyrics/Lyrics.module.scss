@@ -1,0 +1,9 @@
+.lyrics{
+    height: calc(100vh - 60px);
+    font-size: 2rem;
+    overflow-y: auto;
+    pre{
+        width: 100%;
+        padding-bottom: 60px;
+    }
+}

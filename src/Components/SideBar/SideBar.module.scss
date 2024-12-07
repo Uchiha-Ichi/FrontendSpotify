@@ -1,0 +1,32 @@
+@import '../../layouts/MainLayout.module';
+
+.sideBar {
+    width: 300px;
+    padding: 0 5px;
+    position: fixed;
+    top: 60px;
+    height: calc(100vh - 60px);
+    background-color: #121212;
+    border-radius: 10px;
+}
+
+.sideBar .sideBarHeader {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    color: $light-color;
+    margin-bottom: 30px;
+    padding: 10px 10px 10px 0;
+
+    #addBtn {
+        margin-left: auto;
+    }
+}
+
+.sideBarMainContent {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px - 80px);
+    overflow-y: auto;
+    flex-grow: 1;
+}

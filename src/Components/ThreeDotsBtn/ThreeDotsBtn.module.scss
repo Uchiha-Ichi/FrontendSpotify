@@ -1,0 +1,86 @@
+@import '../../layouts/MainLayout.module';
+
+.menuContainer {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    // opacity: 0;
+}
+
+.menuBtn {
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: $secondary-color;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #121212;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    z-index: 1000;
+}
+
+.dropdownMenu ul {
+    list-style: none;
+}
+
+.dropdownItem {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: $light-color;
+}
+
+.dropdownItem:hover {
+    background-color: $third-color;
+}
+
+.hoverMenu {
+    position: relative;
+}
+
+.hoverMenu:hover .subMenu {
+    display: block;
+}
+
+.subMenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    background-color: #121212;
+    border-radius: 5px;
+    min-width: 150px;
+    max-width: fit-content;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.subMenuItem {
+    color: $light-color;
+}
+
+.subMenu ul {
+    list-style: none;
+}
+
+.subMenu ul li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.subMenu ul li:hover {
+    background-color: $third-color;
+}

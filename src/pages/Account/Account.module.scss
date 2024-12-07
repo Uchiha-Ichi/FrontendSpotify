@@ -1,0 +1,128 @@
+@import '../../layouts/AccountLayout.module';
+
+.mainContent {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mainLeft {
+        width: 90%;
+        display: flex;
+        padding: 50px;
+
+        .avatarImg {
+            width: 20vw;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+        }
+
+        .info {
+            margin: 5%;
+            display: flex;
+            flex-direction: column;
+
+            button {
+                margin-top: 50px;
+                width: 150px;
+                color: $light-color;
+                background-color: $third-color;
+                padding: 20px;
+                border-radius: 5px;
+            }
+        }
+    }
+
+    .info {
+        padding-right: 20px;
+        font-size: 1.5rem;
+
+        .moreInfo {
+            color: $secondary-color;
+        }
+
+        width: fit-content;
+    }
+
+    .mainRight {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 20px;
+        border-right: 2px solid $light-color;
+    }
+
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #121212;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 300px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 101;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: $third-color;
+    }
+
+    .error {
+        color: red;
+        text-align: center;
+    }
+
+    .passwordButton {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: $green-color;
+        color: $light-color;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .cancelButton {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .saveButton {
+        background-color: $green-color;
+        color: $light-color;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .closeButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 0.8rem;
+        color: $light-color;
+        cursor: pointer;
+    }
+
+}

@@ -1,0 +1,56 @@
+@import '../../public/assets/styles/utils/mixin';
+@import '../../public/assets/styles/utils/variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $dark-color;
+  font-family: $normal-font, sans-serif;
+  color: $light-color;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input[type="text"] {
+  outline: none;
+  font-size: 20px;
+  color: $light-color;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $third-color;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+.main {
+  position: fixed;
+  width: calc(100vw - 325px);
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  border-radius: 10px;
+  left: 325px;
+  z-index: -1;
+}

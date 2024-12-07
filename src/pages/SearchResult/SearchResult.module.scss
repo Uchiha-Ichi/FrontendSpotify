@@ -1,0 +1,40 @@
+@import '../../layouts/MainLayout.module';
+
+.mainContent {
+    width: calc(100vw - 350px);
+    height: 100vh;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.songResult {
+    width: 100%;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr 1fr 1fr;
+    gap: 10px;
+    padding: 20px;
+}
+
+.gridHeader {
+    color: $secondary-color;
+    text-align: left;
+    padding: 10px;
+    font-size: 0.8em;
+}
+
+.gridCell {
+    padding: 10px;
+    color: $secondary-color;
+}
+
+.artistContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 20px;
+}

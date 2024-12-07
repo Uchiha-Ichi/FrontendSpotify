@@ -1,0 +1,26 @@
+@import '../../layouts/MainLayout.module';
+
+.songContainer {
+    height: 50px;
+    // width: 100px;
+    width: 100%;
+    display: flex;
+
+    .songImg {
+        height: 100%;
+        aspect-ratio: 1/1;
+    }
+
+    .songInfo {
+        display: flex;
+        flex-direction: column;
+        font-family: $title-font;
+        align-self: center;
+        margin: 0 15px;
+    }
+
+    #artist {
+        font-size: small;
+        color: $secondary-color;
+    }
+}

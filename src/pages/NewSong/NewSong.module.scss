@@ -1,0 +1,48 @@
+@import '../../layouts/AccountLayout.module';
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 50vw;
+    margin: 0 auto;
+    img{
+        width: 40px;
+        height: 40px;
+    }
+    label {
+        font-size: 1rem;
+        margin-top: 10px;
+        color: $secondary-color;
+    }
+      
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: $third-color;
+        color: $light-color;
+        resize: none;
+    }
+      
+    button {
+        padding: 10px 20px;
+        background-color: $green-color;
+        color: $light-color;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+      
+    button:hover {
+        background-color: $secondary-color;
+    }
+      
+    button:active {
+        background-color: $secondary-color;
+    }
+      
+}
+  

@@ -1,0 +1,40 @@
+@import '../../layouts/MainLayout.module';
+
+.mainContent {
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+    background-color: #121212;
+    border-radius: 10px;
+    padding: 0px 20px 60px 20px; //adjust if overflow y don't work
+}
+
+.container {
+    margin: 20px 0;
+}
+
+.container .containerInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        color: $light-color;
+        font-size: 10px;
+    }
+
+    .link {
+        color: $light-color;
+        text-decoration: none;
+    }
+
+    margin-bottom: 10px;
+}
+
+.container .gridContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 20px;
+}

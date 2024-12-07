@@ -1,0 +1,12 @@
+@import '../../layouts/MainLayout.module';
+
+.btnCircle {
+    @include circle(50px, $third-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; // Smooth transitions
+
+    // &:hover {
+    // //   background-color: #007bff;     
+    //   transform: scale(1.1);         
+    // }
+}

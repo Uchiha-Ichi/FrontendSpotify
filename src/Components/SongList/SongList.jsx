@@ -5,7 +5,8 @@ import { fetchSongs, setCurrentSong } from "../../redux/songSlice";
 const SongList = () => {
     const dispatch = useDispatch();
     const { songs, currentSong, isLoading, error } = useSelector((state) => state.song);
-    const [audioSrc, setAudioSrc] = useState(null); // state để chứa URL bài hát cần phát
+    const [audioSrc, setAudioSrc] = useState(null);
+    const [imgSrc, setImgSrc] = useState(null);
 
     useEffect(() => {
         dispatch(fetchSongs()); // Lấy danh sách bài hát khi vào trang
@@ -17,13 +18,13 @@ const SongList = () => {
 
         if (song) {
             // Tạo URL để phát nhạc
-            const downloadUrl = `http://localhost:8000/api/song/getSongById/${songId}`;
-
+            const downloadUrl = `http://localhost:8888/api/song/getSongById/${songId}`;
+            const imgUrl = `http://localhost:8888/api/song/getImageById/${songId}`;
             // Cập nhật bài hát đang phát trong Redux store
             dispatch(setCurrentSong(song));
-
             // Cập nhật URL cho thẻ <audio> phát nhạc
             setAudioSrc(downloadUrl);
+            setImgSrc(imgUrl);
         }
     };
 
@@ -45,11 +46,19 @@ const SongList = () => {
             </ul>
 
             {/* Nếu có audioSrc, hiển thị player để phát nhạc */}
-            {audioSrc && (
+            {audioSrc && currentSong && (
                 <div>
-                    <h2>Đang phát: {currentSong ? currentSong.name_song : 'Bài hát mới'}</h2>
+                    <h2>Đang phát: {currentSong.name_song}</h2>
+                    {imgSrc && (
+                        <img
+                            src={imgSrc}
+                            alt="Album cover"
+                            style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+                        />
+                    )}
                     {/* Cập nhật key của <audio> để tạo lại thẻ mỗi khi bài hát thay đổi */}
-                    <audio key={audioSrc} controls autoPlay>
+                    <audio key={audioSrc} controls autoPlay loop
+                        preload="auto">
                         <source src={audioSrc} type="audio/mp3" />
                         Trình duyệt của bạn không hỗ trợ thẻ audio.
                     </audio>

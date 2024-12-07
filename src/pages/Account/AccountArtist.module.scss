@@ -1,0 +1,114 @@
+@import '../../layouts/AccountLayout.module';
+
+.gridContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr 3fr 2fr 1fr 1fr;
+    gap: 10px;
+    padding: 20px;
+}
+
+.container {
+    padding-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .menu {
+        display: flex;
+        gap: 10px;
+        // align-items: center;
+        font-size: 2rem;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        button {
+            color: $light-color;
+            font-weight: 500;
+            font-size: 2rem;
+        }
+    }
+}
+
+.gridHeader {
+    color: $secondary-color;
+    text-align: left;
+    padding: 10px;
+    font-size: 0.8em;
+}
+
+.gridCell {
+    padding: 10px;
+    color: $secondary-color;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #121212;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 300px;
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        background-color: $third-color;
+    }
+
+    textarea {
+        resize: none;
+        width: 100%;
+        background-color: $third-color;
+        color: $light-color;
+    }
+
+    .saveBtn {
+        background-color: $green-color;
+        color: $light-color;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .cancelBtn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .closeBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 0.8rem;
+        color: $light-color;
+        cursor: pointer;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 101;
+}
