@@ -1,9 +1,7 @@
 import styles from "./AllSong.module.scss"
 import Card from '../../Components/Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchAllArtists } from "../../redux/artistSlice";
-import { fetchSongs, setCurrentSong } from "../../redux/songSlice";
+import { setCurrentSong } from "../../redux/songSlice";
 
 
 function AllSong() {
@@ -11,11 +9,6 @@ function AllSong() {
 
     const artists = useSelector((state) => state.artists.artists);
     const songs = useSelector((state) => state.songs.songs);
-
-    useEffect(() => {
-        dispatch(fetchAllArtists());
-        dispatch(fetchSongs());
-    }, [dispatch]);
 
     function getArtistName(song) {
         const artist = artists.find(artist => artist._id === song.id_accounts);

@@ -24,6 +24,20 @@ export const fetchSongsFromPlaylist = createAsyncThunk(
         }
     }
 );
+export const fetchSongsForAccount = createAsyncThunk(
+    'songs/fetchSongsForAccount', async (_, thunkAPI) => {
+        try {
+            const response = await axios.get(
+                'http://localhost:8888/api/song/getAllSongsForAccount',
+                { withCredentials: true }
+            );
+            console.log(response.data);
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+);
 export const fetchLovedSongs = createAsyncThunk('songs/fetchLovedSongs', async () => {
     try {
         const response = await axios.get('http://localhost:8888/api/song/getLovedSongbyIdAccount', { withCredentials: true, });
@@ -168,6 +182,52 @@ export const fetchSongsFromEmotions = createAsyncThunk(
         }
     }
 )
+export const fetchSongsFromEmotionsForAccount = createAsyncThunk(
+    'songs/fetchSongsFromEmotionsForAccount', async (sentence, { rejectWithValue }) => {
+        try {
+            const response = await axios.post("http://localhost:8888/api/song/get_emotions_account", { sentence: sentence }, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+)
+export const editSong = createAsyncThunk("songs/editSong", async ({ id_song, name_song, description }, thunkAPI) => {
+    try {
+        const response = await axios.post('http://localhost:8888/api/song/updateSong', {
+            id_song: id_song,
+            name_song: name_song,
+            description: description
+        }, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (e) {
+        return thunkAPI.rejectWithValue(e.response?.data || "change failed");
+    }
+});
+export const deleteSong = createAsyncThunk("songs/deleteSong", async (id_song, thunkAPI) => {
+    try {
+        const response = await axios.delete(`http://localhost:8888/api/song/deleteSong/${id_song}`
+            , {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        return response.data;
+    } catch (e) {
+        return thunkAPI.rejectWithValue(e.response?.data || "change failed");
+    }
+});
 // Slice để lưu trữ danh sách bài hát
 const songsSlice = createSlice({
     name: "songs",
@@ -210,6 +270,7 @@ const songsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            //allSong
             .addCase(fetchSongs.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
@@ -222,6 +283,20 @@ const songsSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
+            // song for account 
+            .addCase(fetchSongsForAccount.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchSongsForAccount.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.songs = action.payload;
+            })
+            .addCase(fetchSongsForAccount.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            // song from phaylist
             .addCase(fetchSongsFromPlaylist.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -233,6 +308,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // song from album
             .addCase(fetchSongsFromAlbum.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -244,6 +320,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // song from love
             .addCase(fetchLovedSongs.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -255,6 +332,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // song from artist
             .addCase(fetchSongsFromArtist.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -266,6 +344,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // remove song 
             .addCase(removeSongFromPlaylist.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -277,6 +356,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // song from emotions 
             .addCase(fetchSongsFromEmotions.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -288,6 +368,19 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // song from emotions for account
+            .addCase(fetchSongsFromEmotionsForAccount.pending, (state) => {
+                state.isLoading = 'loading';
+            })
+            .addCase(fetchSongsFromEmotionsForAccount.fulfilled, (state, action) => {
+                state.isLoading = 'succeeded';
+                state.songs = action.payload;
+            })
+            .addCase(fetchSongsFromEmotionsForAccount.rejected, (state, action) => {
+                state.isLoading = 'failed';
+                state.error = action.payload;
+            })
+            // add song 
             .addCase(addSongAndImg.pending, (state) => {
                 state.isLoading = 'loading';
             })
@@ -299,6 +392,7 @@ const songsSlice = createSlice({
                 state.isLoading = 'failed';
                 state.error = action.payload;
             })
+            // add song to album 
             .addCase(addSongToAlbum.pending, (state) => {
                 state.isLoading = 'loading';
             })

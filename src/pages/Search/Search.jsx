@@ -6,15 +6,16 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { fetchAlbums } from "../../redux/albumSlice";
 import { setCurrentAlbum } from '../../redux/songSlice';
 import { useNavigate } from "react-router-dom";
-import { setCurrentSong, fetchSongsFromEmotions } from "../../redux/songSlice";
+import { setCurrentSong, fetchSongsFromEmotions, fetchSongsFromEmotionsForAccount } from "../../redux/songSlice";
 import { fetchTypes } from "../../redux/typeSilce";
-import SongContainer from "../../Components/SongContainer/SongContainer.jsx";
+import SongContainer from "../../components/SongContainer/SongContainer.jsx";
 function Search() {
 
 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const account = useSelector((state) => state.auth.login.currentAccount);
 
   const albums = useSelector((state) => state.albums.albums);
   const songs = useSelector((state) => state.songs.songs);
@@ -25,7 +26,6 @@ function Search() {
   const [messages, setMessages] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const messageEndRef = useRef(null);
-
   const ratingElement = (
     <div className={`${styles.rating} ${styles.answer}`}>
       <p>Are you satisfied?</p>
@@ -47,8 +47,12 @@ function Search() {
 
     const userMessage = { type: "message", content: inputValue };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
+    if (account) {
+      await dispatch(fetchSongsFromEmotionsForAccount(inputValue));
 
-    await dispatch(fetchSongsFromEmotions(inputValue));
+    } else {
+      await dispatch(fetchSongsFromEmotions(inputValue));
+    }
     setIsFetching(true);
 
     setInputValue("");
@@ -72,6 +76,7 @@ function Search() {
     if (isFetching) {
       const generatedAnswer = `I will suggest some ${getTypeName()} music for you:
        `;
+      let displayedSongs = songs.slice(0, 6);
 
       let newAnswer1 = { type: "answer", content: generatedAnswer };
       setMessages((prevMessages) => [...prevMessages, newAnswer1]);
@@ -80,7 +85,7 @@ function Search() {
       //   // console.log(song.name_song);
       //   setMessages((prevMessages) => [...prevMessages, newAnswer]);
       // })
-      songs.forEach((song) => {
+      displayedSongs.forEach((song) => {
         const songComponent = (
           <SongContainer
             key={song._id}
@@ -102,7 +107,7 @@ function Search() {
 
   }, [messages, isFetching]);
   function getTypeName() {
-
+    console.log("firstSOng", firstSong);
     const type = types.find(type => type._id === firstSong.id_type);
     const typeName = type.name_type;
     return typeName;
@@ -110,11 +115,11 @@ function Search() {
   return (
     <div className={styles.mainContent}>
       <h3>Top Album</h3>
-      {albums && albums.length > 0 ? (
-        albums.map((album) => {
-          return (
-            <>
-              <div className={styles.genres}>
+      <div className={styles.genres}>
+        {albums && albums.length > 0 ? (
+          albums.map((album) => {
+            return (
+              <>
                 <GenreCard
                   title={album.name_album}
                   imgSrc={`./images/${album._id.toString()}.jpg`}
@@ -123,12 +128,12 @@ function Search() {
                     navigate('/album');
                   }}
                 />
-              </div >
-            </>
-          )
-        })) : (
-        <p>No Album available</p>
-      )}
+              </>
+            )
+          })) : (
+          <p>No Album available</p>
+        )}
+      </div>
       <div className={styles.chatContent}>
         <div className={styles.chat}>
           <h1>How are you doing today,</h1>

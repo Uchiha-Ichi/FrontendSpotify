@@ -1,9 +1,9 @@
 import styles from './Home.module.scss';
-import Card from '../../components/Card/Card.jsx';
+import Card from '../../Components/Card/Card.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAllArtists } from "../../redux/artistSlice";
-import { fetchSongs, setCurrentSong, setCurrentArtist, setCurrentAlbum } from "../../redux/songSlice";
+import { fetchSongs, fetchSongsForAccount, setCurrentSong, setCurrentArtist, setCurrentAlbum } from "../../redux/songSlice";
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchAlbums } from "../../redux/albumSlice";
 import { fetchTypes } from "../../redux/typeSilce";
@@ -14,13 +14,21 @@ function Home() {
     const artists = useSelector((state) => state.artists.artists);
     const songs = useSelector((state) => state.songs.songs);
     const albums = useSelector((state) => state.albums.albums);
+    const account = useSelector((state) => state.auth.login.currentAccount);
 
     useEffect(() => {
+        if (account) {
+            console.log(account.account_name)
+            dispatch(fetchSongsForAccount(() => {
+                console.log(songs)
+            }));
+        } else {
+            dispatch(fetchSongs());
+        }
         dispatch(fetchAllArtists());
-        dispatch(fetchSongs());
         dispatch(fetchAlbums());
         dispatch(fetchTypes());
-    }, [dispatch]);
+    }, [dispatch, account]);
 
     function getArtistName(song) {
 
@@ -35,8 +43,8 @@ function Home() {
         return artistName;
     }
 
-    const displayedArtists = artists.slice(0, 7);
-    const displayedSongs = songs.slice(0, 7);
+    let displayedArtists = artists.slice(0, 7);
+    let displayedSongs = songs.slice(0, 7);
 
     return (
         <div className={styles.mainContent}>

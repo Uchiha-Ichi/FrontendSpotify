@@ -84,9 +84,8 @@ const albumsSlice = createSlice({
             .addCase(addAlbum.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(addAlbum.fulfilled, (state, action) => {
+            .addCase(addAlbum.fulfilled, (state) => {
                 state.status = 'succeeded';
-                state.albums = action.payload;
             })
             .addCase(addAlbum.rejected, (state, action) => {
                 state.status = 'failed';

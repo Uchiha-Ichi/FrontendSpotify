@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import ThreeDotsBtn from "../../components/ThreeDotsBtn/ThreeDotsBtn";
 import SongContainer from "../../components/SongContainer/SongContainer";
 import { Link } from "react-router-dom";
-import { fetchSongsFromArtist, setCurrentSong, addSongToAlbum } from "../../redux/songSlice";
+import { fetchSongsFromArtist, setCurrentSong, addSongToAlbum, editSong, deleteSong } from "../../redux/songSlice";
 import { fetchAlbumsForAccount, addAlbum } from "../../redux/albumSlice";
 
 function AccountArtist() {
@@ -38,28 +38,29 @@ function AccountArtist() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [dispatch]);
+    }, [dispatch, account._id]);
+
     const handleEdit = () => {
         setIsEditing(true);
     }
     const Options = [
         { label: 'Add to Album', onClick: () => null },
         { label: 'Edit', onClick: handleEdit },
-        { label: 'Delete', onClick: () => null }
+        { label: 'Delete', onClick: () => handleDeleteSong(songThreeDots) }
     ];
-    const optionsPlaylist = [
-        ...albums.map((album) => ({
+    const optionsAlbum = [
+        ...(Array.isArray(albums) ? albums.map((album) => ({
             label: album.name_album,
             onClick: () => handleAddSongToAlbum(album, songThreeDots)
-        }))
-
-    ]
-    const AlbumOptions = [
-        { label: 'Edit', onClick: () => null },
-        { label: 'Delete', onClick: () => null }
-    ]
+        })) : [])
+    ];
     const handleAddSongToAlbum = async (album, song) => {
         await dispatch(addSongToAlbum({ id_album: album._id, id_song: song._id }));
+        await dispatch(fetchAlbumsForAccount());
+        await dispatch(fetchSongsFromArtist(account._id));
+    }
+    const handleDeleteSong = async (song) => {
+        await dispatch(deleteSong(song._id));
         await dispatch(fetchAlbumsForAccount());
         await dispatch(fetchSongsFromArtist(account._id));
     }
@@ -78,8 +79,17 @@ function AccountArtist() {
     const handleCancel = () => {
         setIsEditing(false);
     }
-    const handleSave = () => {
-        setIsEditing(false);
+    const handleSave = async () => {
+        if (newName !== "") {
+            await dispatch(editSong({
+                id_song: songThreeDots._id,
+                name_song: newName,
+                description: newDescription,
+            }));
+            await dispatch(fetchAlbumsForAccount());
+            await dispatch(fetchSongsFromArtist(account._id));
+            await setIsEditing(false);
+        }
     }
     const handleSaveAlbum = async () => {
         setIsEditing(false);
@@ -142,7 +152,7 @@ function AccountArtist() {
                         </div>
 
                         <div>
-                            <button onClick={handleSave} className={styles.saveBtn}>
+                            <button onClick={handleSave()} className={styles.saveBtn}>
                                 Save
                             </button>
                             <button onClick={handleCancel} className={styles.cancelBtn}>
@@ -178,7 +188,7 @@ function AccountArtist() {
                                     <div className={styles.gridCell}>{timePlay()}</div>
                                     <ThreeDotsBtn
                                         options={Options}
-                                        optionsPlaylist={optionsPlaylist}
+                                        optionsPlaylist={optionsAlbum}
                                         onOpen={() => setSongThreeDots(song)} class={styles.gridCell} />
                                 </>
                             )
@@ -247,11 +257,8 @@ function AccountArtist() {
                                     <div className={styles.gridCell}>{album.name_album}</div>
                                     <div className={styles.gridCell}>{account.account_name}</div>
                                     <div className={styles.gridCell}>{formatDate(album.create_date)}</div>
-                                    <div className={styles.gridCell}></div>
-                                    <ThreeDotsBtn
-                                        options={AlbumOptions}
-                                        optionsPlaylist={optionsPlaylist}
-                                        className={styles.gridCell} />
+                                    <div className={styles.gridCell}>Edit</div>
+                                    <div className={styles.gridCell}>Delete</div>
                                 </>
                             )
                         })

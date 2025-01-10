@@ -8,6 +8,7 @@ import { logoutSuccess } from "../../redux/authSlice";
 import { searchSongs } from "../../redux/searchSlice";
 import styles from "./header.module.scss"
 import IconButton from "../IconButton/IconButton";
+import { setCurrentSong } from "../../redux/songSlice";
 const NavBar = () => {
     const account = useSelector((state) => state.auth.login.currentAccount);
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const NavBar = () => {
     const accessToken = account?.accessToken;
     let axiosJWT = createAxios(account, dispatch, logoutSuccess);
     const handleLogOut = () => {
+        setCurrentSong(null);
         logOut(dispatch, navigate, accessToken, axiosJWT);
     }
     const [isOpen, setIsOpen] = useState(false);
